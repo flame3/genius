@@ -15,6 +15,7 @@
 		016A7AE4228CF0E700C32002 /* geniusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016A7AE3228CF0E700C32002 /* geniusTests.swift */; };
 		016A7AEF228CF0E700C32002 /* geniusUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016A7AEE228CF0E700C32002 /* geniusUITests.swift */; };
 		016A7AFD228CF2F200C32002 /* requestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016A7AFC228CF2F200C32002 /* requestViewController.swift */; };
+		01EA955122917CDA00617722 /* requestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EA955022917CDA00617722 /* requestTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		016A7AEE228CF0E700C32002 /* geniusUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geniusUITests.swift; sourceTree = "<group>"; };
 		016A7AF0228CF0E700C32002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		016A7AFC228CF2F200C32002 /* requestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestViewController.swift; sourceTree = "<group>"; };
+		01EA955022917CDA00617722 /* requestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			children = (
 				016A7ACB228CF0DF00C32002 /* AppDelegate.swift */,
 				016A7AFC228CF2F200C32002 /* requestViewController.swift */,
+				01EA955022917CDA00617722 /* requestTableViewCell.swift */,
 				016A7ACF228CF0DF00C32002 /* Main.storyboard */,
 				016A7AD5228CF0E700C32002 /* Assets.xcassets */,
 				016A7AD7228CF0E700C32002 /* LaunchScreen.storyboard */,
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				016A7AD4228CF0DF00C32002 /* genius.xcdatamodeld in Sources */,
+				01EA955122917CDA00617722 /* requestTableViewCell.swift in Sources */,
 				016A7AFD228CF2F200C32002 /* requestViewController.swift in Sources */,
 				016A7ACC228CF0DF00C32002 /* AppDelegate.swift in Sources */,
 			);

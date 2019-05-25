@@ -8,7 +8,7 @@
 
 import UIKit
 
-class requestViewController: UIViewController, UITableViewDataSource {
+class requestViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
    
     
 
@@ -20,20 +20,14 @@ class requestViewController: UIViewController, UITableViewDataSource {
     }()
     
     final let urlSting = "https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/10/explicit.json"
-    
-    var artistNameArray = [String]()
-    var albumNameArray = [String]()
-    var albumCoverImageArray = [String]()
-    
-    
-    
-    
+ 
     // link for  media: https://rss.itunes.apple.com/en-us
     //   https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/10/explicit.json
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.requstTV.dataSource = self
+        self.requstTV.delegate = self
         
         view.addSubview(requstTV)
         
@@ -41,7 +35,7 @@ class requestViewController: UIViewController, UITableViewDataSource {
         
        
         setupUI()
-        self.downloadJsonWihTask()
+        self.downloadJsonWithUrl()
         
         view.backgroundColor = .yellow
     }
@@ -55,31 +49,25 @@ class requestViewController: UIViewController, UITableViewDataSource {
         requstTV.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         requstTV.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         requstTV.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        //requstTV.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         
         
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! requestTableViewCell
-//        cell.albumNameLBL.text = albumNameArray[indexPath.row]
-//        cell.artistNameLBL.text = artistNameArray[indexPath.row]
-//
-//
-//        let imgURL = NSURL(string: albumCoverImageArray[indexPath.row])
-//
-//        if imgURL != nil{
-//            let data = NSData(contentsOf: (imgURL as URL?)!)
-//            cell.artistCoverImage.image = UIImage(data: data! as Data)
-//        }
-//
+
         return cell
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+    
+    
     
 
     
@@ -87,41 +75,72 @@ class requestViewController: UIViewController, UITableViewDataSource {
     
     
     // MARK: - Helper Methods to retrieve data
+    struct downloadJsonThruUrl{
+        let session = URLSession.shared
+         func getData(completion: @escaping ([Results]) -> Void){
+            guard let url = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/10/explicit.json") else {return}
+
+            URLSession.shared.dataTask(with: url) { (data, _, error) in
+                if let error = error {
+                    print("error retrieving data \(error.localizedDescription)")
+                }
+                
+                do {
+                    guard let data = data else {return}
+                    let decoder = JSONDecoder()
+                    let subData = try decoder.decode(SubData.self, from: data)
+                    let results = subData.feed.results
+                    DispatchQueue.main.async {
+                        completion(results)
+                    }
+                    
+                } catch{
+                    // error
+                    print("error decoding Json \(error.localizedDescription)")
+                }
+            }.resume()
+        }
+        
+        
+        func downloadImagesThruUrl(with: URL, completion: @escaping (_ image: UIImage?) -> Void){
+            guard let url = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/10/explicit.json") else {return}
+            session.dataTask(with: url) { (data, response, error) in
+                var downlaodedImage: UIImage?
+                
+                if let error = error{
+                    print("error retrieving image \(error.localizedDescription)")
+                }
+                guard let data = data else {return}
+                downlaodedImage = UIImage(data: data)
+                
+                DispatchQueue.main.async {
+                    completion(downlaodedImage)
+                }
+            }.resume()
+        }
+    }
+    
     
     func downloadJsonWithUrl(){
         let url = NSURL(string: urlSting)
         URLSession.shared.dataTask(with: (url as URL?)!, completionHandler: { (data, response, error) in
-            if let jo = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary{
-                print(jo.value(forKey: "feed")!)
+            guard let data = data, error == nil, response != nil else{
+                print("something is wrong")
+                return
+            }
+            
+            do{
+                let decoder = JSONDecoder()
+                let result = try decoder.decode(Feed.self, from: data)
+                //print(result.results.artworkUrl100.self)
                 
-//                if self.artistNameArray = jo.value(forKey: "feed") as? NSArray{
-//                  if let results = jo.value(forkey: "results") as? NSArray{
-//                    for artist in self.artistNameArray{
-//                        if let artistDictionary = artist as? NSDictionary{
-//                            if let name = artistDictionary.value(forKey: "artist"){
-//                                self.artistNameArray.append(name as! String)
-//                            }
-//                            if let name = artistDictionary.value(forKey: "artist"){
-//                                self.albumNameArray.append(name as! String)
-//                            }
-//                            if let name = artistDictionary.value(forKey: "artist"){
-//                                self.albumCoverImageArray.append(name as! String)
-//                            }
-//                OperationQueue.main.addOperation({
-//                    self.requstTV.reloadData()
-//                })
-//
-//
-//                        }
-//                        // go ahead and dig deeper
-//                    }
-//                }// last brace for if statement
-//            }
-
-            }//end of dataTask
+            } catch{
+                print("something wrong after downloaded \(error.localizedDescription)")
+            }
             
         }).resume()
     }//end
+    
     
     func downloadJsonWihTask(){
         
@@ -129,10 +148,7 @@ class requestViewController: UIViewController, UITableViewDataSource {
         var downloadTask = URLRequest(url: (url as? URL)!, cachePolicy: URLRequest.CachePolicy.reloadIgnoringCacheData, timeoutInterval: 20)
         
         downloadTask.httpMethod = "GET"
-        
-
-
-        
+    
         URLSession.shared.dataTask(with: downloadTask, completionHandler: { (data, response, error) in
             let jo = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments)
             

@@ -10,6 +10,23 @@ import UIKit
 
 class requestTableViewCell: UITableViewCell {
     
+    
+    var result: Results? {
+        didSet{
+            guard let result = result else {return}
+            artistNameLBL.text = result.artistName
+            albumReleaseDate.text = result.releaseDate
+            print(artistNameLBL.text!)
+            print(albumReleaseDate.text!)
+            guard let url = URL(string: result.artworkUrl100) else {return}
+            DownloadJsonThruUrl.instance.downloadImagesThruUrl(withUrl: url) { [ weak self ] (image) in
+                self?.artistCoverImage.image  = image
+                
+                print(self!.artistCoverImage)
+            }
+        }
+    }
+    
     let artistCoverImage: UIImageView = {
        let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -21,7 +38,7 @@ class requestTableViewCell: UITableViewCell {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-    let albumNameLBL: UILabel = {
+    let albumReleaseDate: UILabel = {
        let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -33,7 +50,7 @@ class requestTableViewCell: UITableViewCell {
         // Initialization code
         self.addSubview(artistCoverImage)
         self.addSubview(artistNameLBL)
-        self.addSubview(albumNameLBL)
+        self.addSubview(albumReleaseDate)
         setupUI()
     }
     
@@ -54,19 +71,15 @@ class requestTableViewCell: UITableViewCell {
         
         
         
-        albumNameLBL.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        albumNameLBL.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 15).isActive = true
-        albumNameLBL.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        albumNameLBL.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        albumReleaseDate.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        albumReleaseDate.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 15).isActive = true
+        albumReleaseDate.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        albumReleaseDate.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         
         
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    
 
 }

@@ -17,6 +17,7 @@
 		016A7AFD228CF2F200C32002 /* requestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016A7AFC228CF2F200C32002 /* requestViewController.swift */; };
 		01EA955122917CDA00617722 /* requestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EA955022917CDA00617722 /* requestTableViewCell.swift */; };
 		01EA95532291A1D100617722 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EA95522291A1D100617722 /* Feed.swift */; };
+		01EA955522995EC800617722 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EA955422995EC800617722 /* NetworkHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		016A7AFC228CF2F200C32002 /* requestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestViewController.swift; sourceTree = "<group>"; };
 		01EA955022917CDA00617722 /* requestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestTableViewCell.swift; sourceTree = "<group>"; };
 		01EA95522291A1D100617722 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		01EA955422995EC800617722 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 			children = (
 				016A7ACB228CF0DF00C32002 /* AppDelegate.swift */,
 				016A7AFC228CF2F200C32002 /* requestViewController.swift */,
+				01EA955422995EC800617722 /* NetworkHelper.swift */,
 				01EA95522291A1D100617722 /* Feed.swift */,
 				01EA955022917CDA00617722 /* requestTableViewCell.swift */,
 				016A7ACF228CF0DF00C32002 /* Main.storyboard */,
@@ -269,6 +272,7 @@
 				01EA95532291A1D100617722 /* Feed.swift in Sources */,
 				01EA955122917CDA00617722 /* requestTableViewCell.swift in Sources */,
 				016A7AFD228CF2F200C32002 /* requestViewController.swift in Sources */,
+				01EA955522995EC800617722 /* NetworkHelper.swift in Sources */,
 				016A7ACC228CF0DF00C32002 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
